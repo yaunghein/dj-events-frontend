@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@dj-components": ["components/"]
+      "@dj-components": ["components/"],
+      "@dj-styles/*": ["styles/*"],
+      "@dj-config/*": ["config/*"]
     }
   }
 }

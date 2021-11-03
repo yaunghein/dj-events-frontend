@@ -1,8 +1,10 @@
 import Head from 'next/head'
-import { Header, Footer } from '@dj-components'
-import styles from '../styles/Layout.module.css'
+import { useRouter } from 'next/router'
+import { Header, Footer, Showcase } from '@dj-components'
+import styles from '@dj-styles/Layout.module.css'
 
 export default function Layout({ title, keywords, description, children }) {
+  const router = useRouter()
   return (
     <>
       <Head>
@@ -11,6 +13,7 @@ export default function Layout({ title, keywords, description, children }) {
         <meta name='keywords' content={keywords} />
       </Head>
       <Header />
+      {router.pathname === '/' && <Showcase />}
       <div className={styles.container}>{children}</div>
       <Footer />
     </>
