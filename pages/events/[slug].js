@@ -1,7 +1,9 @@
+import { Layout } from '@dj-components'
+
 export default function EventPage() {
   return (
-    <div>
+    <Layout>
       <h1>Event Page</h1>
-    </div>
+    </Layout>
   )
 }
