@@ -17,9 +17,7 @@ export default function EventItem({ evt }) {
       </div>
 
       <Link href={`/events/${evt.slug}`}>
-        <a className='btn' style={{ marginRight: '10px' }}>
-          Details
-        </a>
+        <a className={`btn ${styles.detailBtn}`}>Details</a>
       </Link>
     </div>
   )

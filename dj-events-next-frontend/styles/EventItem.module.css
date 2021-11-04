@@ -16,6 +16,10 @@
   flex: 2;
 }
 
+.detailBtn {
+  margin-right: 10px;
+}
+
 @media (max-width: 600px) {
   .event {
     flex-direction: column;
@@ -24,5 +28,10 @@
 
   .info {
     margin-bottom: 20px;
+  }
+
+  .detailBtn {
+    margin-right: 0px;
+    margin-bottom: 10px;
   }
 }
