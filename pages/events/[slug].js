@@ -4,6 +4,7 @@ import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import { Layout } from '@dj-components'
 import { API_URL } from '@dj-config/index'
 import styles from '@dj-styles/Event.module.css'
+import { getPlaiceholder } from 'plaiceholder'
 
 export default function EventPage({ evt }) {
   const deleteEvent = () => {
@@ -30,7 +31,14 @@ export default function EventPage({ evt }) {
         <h1>{evt.name}</h1>
         {evt.image && (
           <div className={styles.image}>
-            <Image src={evt.image} width={1100} height={600} />
+            <Image
+              src={evt.image}
+              width={1100}
+              height={600}
+              alt={evt.name}
+              placeholder='blur'
+              blurDataURL={evt.base64}
+            />
           </div>
         )}
 
@@ -66,10 +74,16 @@ export async function getStaticProps(context) {
   const { slug } = context.params
   const resp = await fetch(`${API_URL}/api/events/${slug}`)
   const data = await resp.json()
+  const eventWithBlurPlaceholder = await Promise.all(
+    data.map(async evt => {
+      const { base64 } = await getPlaiceholder(evt.image)
+      return { ...evt, base64 }
+    })
+  ).then(event => event)
 
   return {
     props: {
-      evt: data[0],
+      evt: eventWithBlurPlaceholder[0],
       revalidate: 1,
     },
   }

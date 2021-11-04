@@ -6,7 +6,7 @@ export default function EventItem({ evt }) {
   return (
     <div className={styles.event}>
       <div className={styles.img}>
-        <Image src={evt.image ? evt.image : '/images/event-default.png'} width={170} height={100} />
+        <Image src={evt.image} width={170} height={100} alt={evt.name} placeholder='blur' blurDataURL={evt.base64} />
       </div>
 
       <div className={styles.info}>
