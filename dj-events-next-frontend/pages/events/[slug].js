@@ -4,7 +4,7 @@ import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import { Layout } from '@dj-components'
 import { API_URL } from '@dj-config/index'
 import styles from '@dj-styles/Event.module.css'
-import { getPlaiceholder } from 'plaiceholder'
+// import { getPlaiceholder } from 'plaiceholder'
 
 export default function EventPage({ evt }) {
   const deleteEvent = () => {
@@ -26,18 +26,18 @@ export default function EventPage({ evt }) {
         </div>
 
         <span>
-          {evt.date} at {evt.time}
+          {new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}
         </span>
         <h1>{evt.name}</h1>
         {evt.image && (
           <div className={styles.image}>
             <Image
-              src={evt.image}
+              src={evt.image.formats.large.url}
               width={1100}
               height={600}
               alt={evt.name}
-              placeholder='blur'
-              blurDataURL={evt.base64}
+              // placeholder='blur'
+              // blurDataURL={evt.base64}
             />
           </div>
         )}
@@ -58,7 +58,7 @@ export default function EventPage({ evt }) {
 }
 
 export async function getStaticPaths() {
-  const resp = await fetch(`${API_URL}/api/events`)
+  const resp = await fetch(`${API_URL}/events`)
   const events = await resp.json()
   const paths = events.map(evt => ({
     params: { slug: evt.slug },
@@ -71,28 +71,21 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const { slug } = context.params
-  const resp = await fetch(`${API_URL}/api/events/${slug}`)
-  const data = await resp.json()
-  const eventWithBlurPlaceholder = await Promise.all(
-    data.map(async evt => {
-      const { base64 } = await getPlaiceholder(evt.image)
-      return { ...evt, base64 }
-    })
-  ).then(event => event)
+  const resp = await fetch(`${API_URL}/events?slug=${context.params.slug}`)
+  const events = await resp.json()
+  // const { base64 } = await getPlaiceholder(events[0].image.formats.thumbnail.url)
+  // const singleEventWithBlurPlaceholder = { ...events[0], base64 }
 
   return {
-    props: {
-      evt: eventWithBlurPlaceholder[0],
-      revalidate: 1,
-    },
+    props: { evt: events[0] },
+    revalidate: 1,
   }
 }
 
 // ServerSide
 // export async function getServerSideProps(context) {
 //   const { slug } = context.query
-//   const resp = await fetch(`${API_URL}/api/events/${slug}`)
+//   const resp = await fetch(`${API_URL}/events/${slug}`)
 //   const data = await resp.json()
 
 //   return {

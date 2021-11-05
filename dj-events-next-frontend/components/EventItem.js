@@ -6,12 +6,19 @@ export default function EventItem({ evt }) {
   return (
     <div className={styles.event}>
       <div className={styles.img}>
-        <Image src={evt.image} width={170} height={100} alt={evt.name} placeholder='blur' blurDataURL={evt.base64} />
+        <Image
+          src={evt.image.formats.thumbnail.url}
+          width={170}
+          height={100}
+          alt={evt.name}
+          // placeholder='blur'
+          // blurDataURL={evt.base64}
+        />
       </div>
 
       <div className={styles.info}>
         <span>
-          {evt.date} at {evt.time}
+          {new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}
         </span>
         <h3>{evt.name}</h3>
       </div>
