@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Layout } from '@dj-components'
+import { Layout, Modal, ImageUpload } from '@dj-components'
 import { API_URL } from '@dj-config/index'
 import { FaImage } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify'
@@ -22,6 +22,7 @@ export default function EditEventPage({ evt }) {
     description: evt.description,
   })
   const [imagePreview, setImagePreview] = useState(evt.image ? evt.image.formats.thumbnail.url : null)
+  const [isModalShow, setIsModalShow] = useState(false)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -50,6 +51,13 @@ export default function EditEventPage({ evt }) {
   const handleInputChange = e => {
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
+  }
+
+  const imageUploaded = async () => {
+    const resp = await fetch(`${API_URL}/events/${router.query.id}`) // Why ${evt.id} doesn't work???
+    const evt = await resp.json()
+    setImagePreview(evt.image.formats.thumbnail.url)
+    setIsModalShow(false)
   }
 
   return (
@@ -121,13 +129,15 @@ export default function EditEventPage({ evt }) {
             <p>No image uploaded.</p>
           </div>
         )}
-
-        <div>
-          <button className='btn-secondary'>
-            <FaImage /> Set Image
-          </button>
-        </div>
       </form>
+      <div>
+        <button className='btn-secondary btn-icon' onClick={() => setIsModalShow(true)}>
+          <FaImage /> Set Image
+        </button>
+      </div>
+      <Modal show={isModalShow} onClose={() => setIsModalShow(false)}>
+        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
+      </Modal>
     </Layout>
   )
 }

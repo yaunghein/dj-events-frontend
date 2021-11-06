@@ -1,8 +1,7 @@
-import { Layout, EventItem } from '@dj-components'
-import { API_URL } from '@dj-config/index'
-// import { getPlaiceholder } from 'plaiceholder'
+import { Layout, EventItem, Pagination } from '@dj-components'
+import { API_URL, PER_PAGE } from '@dj-config/index'
 
-export default function EventPage({ events }) {
+export default function EventPage({ events, page, total }) {
   return (
     <Layout>
       <h1>Events</h1>
@@ -12,22 +11,30 @@ export default function EventPage({ events }) {
       {events.map(evt => (
         <EventItem key={evt.id} evt={evt} />
       ))}
+
+      <Pagination page={page} total={total} />
     </Layout>
   )
 }
 
-export async function getStaticProps() {
-  const resp = await fetch(`${API_URL}/events?_sort=date:ASC`)
-  const events = await resp.json()
-  // const eventsWithBlurPlaceholder = await Promise.all(
-  //   events.map(async evt => {
-  //     const { base64 } = await getPlaiceholder(evt.image.formats.thumbnail.url)
-  //     return { ...evt, base64 }
-  //   })
-  // ).then(events => events)
+export async function getServerSideProps(context) {
+  const { page = 1 } = context.query
+  //calculating start index
+  const start = (+page - 1) * PER_PAGE
+
+  //fetching total events count
+  const totalResp = await fetch(`${API_URL}/events/count`)
+  const total = await totalResp.json()
+
+  //fetching events
+  const eventsResp = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=${PER_PAGE}&_start=${start}`)
+  const events = await eventsResp.json()
 
   return {
-    props: { events },
-    revalidate: 1,
+    props: {
+      events,
+      page: +page,
+      total,
+    },
   }
 }

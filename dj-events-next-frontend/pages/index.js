@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Layout, EventItem } from '@dj-components'
 import { API_URL } from '@dj-config/index'
 // import { getPlaiceholder } from 'plaiceholder'
@@ -12,6 +13,10 @@ export default function Home({ events }) {
       {events.map(evt => (
         <EventItem key={evt.id} evt={evt} />
       ))}
+
+      <Link href='/events'>
+        <a className='btn-secondary'>See All Events</a>
+      </Link>
     </Layout>
   )
 }
