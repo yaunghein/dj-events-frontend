@@ -27,6 +27,20 @@ h1 {
 
 .btn {
   display: inline-block;
+  background: red;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* .btn {
+  display: inline-block;
   background: transparent;
   color: #fff;
   padding: 10px 20px;
@@ -51,7 +65,7 @@ h1 {
 
 .btn:hover::before {
   transform: scale(1.05);
-}
+} */
 
 .btn-secondary {
   font: inherit;

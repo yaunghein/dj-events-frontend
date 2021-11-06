@@ -1,14 +1,30 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import { Layout } from '@dj-components'
 import { API_URL } from '@dj-config/index'
 import styles from '@dj-styles/Event.module.css'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 // import { getPlaiceholder } from 'plaiceholder'
 
 export default function EventPage({ evt }) {
-  const deleteEvent = () => {
-    console.log('Deleted!')
+  const router = useRouter()
+
+  const deleteEvent = async e => {
+    e.preventDefault()
+    if (confirm(`Are you sure to delete ${evt.name}?`)) {
+      const resp = await fetch(`${API_URL}/events/${evt.id}`, {
+        method: 'DELETE',
+      })
+      const data = await resp.json()
+      if (!resp.ok) {
+        toast.error(data.message)
+      } else {
+        router.push('/events')
+      }
+    }
   }
 
   return (
@@ -29,6 +45,7 @@ export default function EventPage({ evt }) {
           {new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}
         </span>
         <h1>{evt.name}</h1>
+        <ToastContainer position='bottom-left' />
         {evt.image && (
           <div className={styles.image}>
             <Image
@@ -82,7 +99,7 @@ export async function getStaticProps(context) {
   }
 }
 
-// ServerSide
+// ServerSideProps
 // export async function getServerSideProps(context) {
 //   const { slug } = context.query
 //   const resp = await fetch(`${API_URL}/events/${slug}`)
