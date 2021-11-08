@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Layout, Modal, ImageUpload } from '@dj-components'
@@ -9,8 +8,9 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import styles from '@dj-styles/Form.module.css'
 import moment from 'moment'
+import cookie from 'cookie'
 
-export default function EditEventPage({ evt }) {
+export default function EditEventPage({ evt, token }) {
   const router = useRouter()
   const [values, setValues] = useState({
     name: evt.name,
@@ -36,11 +36,15 @@ export default function EditEventPage({ evt }) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     })
 
     if (!resp.ok) {
+      if (resp.status === 403 || resp.status === 401) {
+        return toast.error('No token included.')
+      }
       toast.error('Something Went Wrong')
     } else {
       const evt = await resp.json()
@@ -62,9 +66,7 @@ export default function EditEventPage({ evt }) {
 
   return (
     <Layout title={`Edit ${evt.name} Event`}>
-      <Link href={`/events/${evt.slug}`}>
-        <a>{'<'} Go Back</a>
-      </Link>
+      <button onClick={() => router.back()}>{'<'} Go Back</button>
       <h1>Edit {evt.name} Event</h1>
       <ToastContainer position='bottom-left' />
 
@@ -136,16 +138,17 @@ export default function EditEventPage({ evt }) {
         </button>
       </div>
       <Modal show={isModalShow} onClose={() => setIsModalShow(false)}>
-        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
+        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} token={token} />
       </Modal>
     </Layout>
   )
 }
 
-export async function getServerSideProps(context) {
-  const resp = await fetch(`${API_URL}/events/${context.query.id}`)
+export async function getServerSideProps({ req, query: { id } }) {
+  const { token } = cookie.parse(req.headers.cookie)
+  const resp = await fetch(`${API_URL}/events/${id}`)
   const evt = await resp.json()
   return {
-    props: { evt },
+    props: { evt, token },
   }
 }

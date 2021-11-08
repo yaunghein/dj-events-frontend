@@ -6,8 +6,9 @@ import { API_URL } from '@dj-config/index'
 import styles from '@dj-styles/Form.module.css'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import cookie from 'cookie'
 
-export default function AddEventPage() {
+export default function AddEventPage({ token }) {
   const [values, setValues] = useState({
     name: '',
     performers: '',
@@ -31,11 +32,15 @@ export default function AddEventPage() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     })
 
     if (!resp.ok) {
+      if (resp.status === 403 || resp.status === 401) {
+        return toast.error('No token included.')
+      }
       toast.error('Something Went Wrong')
     } else {
       const evt = await resp.json()
@@ -105,4 +110,11 @@ export default function AddEventPage() {
       </form>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = cookie.parse(req.headers.cookie)
+  return {
+    props: { token },
+  }
 }

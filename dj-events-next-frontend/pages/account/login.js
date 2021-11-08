@@ -25,7 +25,7 @@ export default function LoginPage() {
         <h1>
           <FaUser /> Log In
         </h1>
-        <ToastContainer />
+        <ToastContainer position='bottom-left' />
 
         <form onSubmit={handleSubmit}>
           <div>
