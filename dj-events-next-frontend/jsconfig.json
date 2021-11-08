@@ -4,7 +4,8 @@
     "paths": {
       "@dj-components": ["components/"],
       "@dj-styles/*": ["styles/*"],
-      "@dj-config/*": ["config/*"]
+      "@dj-config/*": ["config/*"],
+      "@dj-context/*": ["context/*"]
     }
   }
 }
