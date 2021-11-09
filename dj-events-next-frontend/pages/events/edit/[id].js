@@ -145,6 +145,15 @@ export default function EditEventPage({ evt, token }) {
 }
 
 export async function getServerSideProps({ req, query: { id } }) {
+  if (!req.headers.cookie) {
+    return {
+      redirect: {
+        destination: '/account/login',
+        permanent: false,
+      },
+    }
+  }
+
   const { token } = cookie.parse(req.headers.cookie)
   const resp = await fetch(`${API_URL}/events/${id}`)
   const evt = await resp.json()
