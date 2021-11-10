@@ -30,6 +30,14 @@ export default function Dashboard({ events, token }) {
         <ToastContainer position='bottom-left' />
         <h1>Dashboard Page</h1>
         <h3>My Events</h3>
+        {events.length === 0 && (
+          <>
+            <p>You do not have any event yet!</p>
+            <button className='btn-secondary' style={{ marginLeft: 0 }} onClick={() => router.push('/events/add')}>
+              Add Event
+            </button>
+          </>
+        )}
         {events.map(evt => (
           <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} />
         ))}

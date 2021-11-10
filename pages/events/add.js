@@ -55,9 +55,8 @@ export default function AddEventPage({ token }) {
 
   return (
     <Layout title='Add New Event'>
-      <Link href='/events'>
-        <a>{'<'} Go Back</a>
-      </Link>
+      <button onClick={() => router.back()}>{'<'} Go Back</button>
+
       <h1>Add Event Page</h1>
       <ToastContainer position='bottom-left' />
 
