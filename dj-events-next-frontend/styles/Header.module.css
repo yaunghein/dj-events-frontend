@@ -39,20 +39,29 @@
   color: red;
 }
 
+.mobileNavBtn {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
     height: auto;
   }
 
+  .header .desktopNav {
+    display: none;
+  }
+
+  .mobileNavBtn {
+    display: block;
+    margin: 32px 0 20px;
+  }
+
   .header ul {
     margin: 20px 0;
     flex-direction: column;
     text-align: center;
-  }
-
-  .header ul li {
-    margin: 8px 0;
   }
 
   .header a {

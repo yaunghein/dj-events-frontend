@@ -11,6 +11,7 @@ export default function Layout({ title, keywords, description, children }) {
         <title>{title}</title>
         <meta name='description' content={description} />
         <meta name='keywords' content={keywords} />
+        <link rel='shortcut icon' type='image/svg' href='/dj-favicon.svg' />
       </Head>
       <Header />
       {router.pathname === '/' && <Showcase />}

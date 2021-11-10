@@ -1,12 +1,13 @@
 import Link from 'next/link'
-import { useContext } from 'react'
-import { Search } from '@dj-components'
+import { useState, useContext } from 'react'
+import { Search, MobileNav } from '@dj-components'
 import { AuthContext } from '@dj-context/AuthContext'
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa'
 import styles from '@dj-styles/Header.module.css'
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
   return (
     <header className={styles.header}>
@@ -16,10 +17,8 @@ export default function Header() {
             <a>DJ Events</a>
           </Link>
         </div>
-
         <Search />
-
-        <nav>
+        <nav className={styles.desktopNav}>
           <ul>
             <li>
               <Link href='/about'>
@@ -62,6 +61,11 @@ export default function Header() {
             )}
           </ul>
         </nav>
+
+        <button className={styles.mobileNavBtn} onClick={() => setIsMobileNavOpen(true)}>
+          MENU
+        </button>
+        {isMobileNavOpen && <MobileNav setIsMobileNavOpen={setIsMobileNavOpen} />}
       </div>
     </header>
   )
