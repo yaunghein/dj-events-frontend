@@ -6,7 +6,7 @@ import styles from '@dj-styles/Modal.module.css'
 export default function Modal({ show, onClose, title, children }) {
   const [isBrowser, setIsBrowser] = useState(false)
 
-  useEffect(() => setIsBrowser(true))
+  useEffect(() => setIsBrowser(true), [])
 
   const handleClose = e => {
     e.preventDefault()

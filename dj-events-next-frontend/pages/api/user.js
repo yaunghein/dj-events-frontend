@@ -1,7 +1,7 @@
 import { API_URL } from '@dj-config/index'
 import cookie from 'cookie'
 
-export default async (req, res) => {
+export default async function handler(req, res) {
   if (req.method === 'GET') {
     //if cookie is not there, just return
     if (!req.headers.cookie) {

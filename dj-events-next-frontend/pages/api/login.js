@@ -1,7 +1,7 @@
 import { API_URL } from '@dj-config/index'
 import cookie from 'cookie'
 
-export default async (req, res) => {
+export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { identifier, password } = req.body
 

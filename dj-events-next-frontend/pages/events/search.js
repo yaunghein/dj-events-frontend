@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Layout, EventItem } from '@dj-components'
 import { API_URL } from '@dj-config/index'
@@ -8,9 +7,8 @@ export default function SearchPage({ events }) {
   const router = useRouter()
   return (
     <Layout title='Search Result'>
-      <Link href='/events'>
-        <a>{'<'} Go Back</a>
-      </Link>
+      <button onClick={() => router.back()}>{'<'} Go Back</button>
+
       {events.length === 0 && <h3>No events to show.</h3>}
       <h1>
         Found {events.length} {events.length > 1 ? 'Results' : 'Result'} for {router.query.term}.
