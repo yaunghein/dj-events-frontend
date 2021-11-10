@@ -89,6 +89,13 @@ h1 {
   cursor: pointer;
 }
 
+@media (max-width: 768px) {
+  .btn-secondary {
+    margin: 0;
+    align-self: flex-end;
+  }
+}
+
 .btn-secondary:hover {
   opacity: 0.8;
 }

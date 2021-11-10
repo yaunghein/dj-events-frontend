@@ -51,6 +51,10 @@
     text-align: center;
   }
 
+  .header ul li {
+    margin: 8px 0;
+  }
+
   .header a {
     margin-right: 0;
   }
