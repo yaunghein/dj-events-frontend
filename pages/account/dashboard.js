@@ -4,6 +4,8 @@ import { API_URL } from '@dj-config/index'
 import cookie from 'cookie'
 import styles from '@dj-styles/Dashboard.module.css'
 import { ToastContainer, toast } from 'react-toastify'
+import { parent } from '@dj-animation/stagger-slideIn'
+import { motion } from 'framer-motion'
 
 export default function Dashboard({ events, token }) {
   const router = useRouter()
@@ -38,9 +40,11 @@ export default function Dashboard({ events, token }) {
             </button>
           </>
         )}
-        {events.map(evt => (
-          <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} />
-        ))}
+        <motion.div variants={parent} initial='hidden' animate='visible'>
+          {events.map(evt => (
+            <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} />
+          ))}
+        </motion.div>
       </div>
     </Layout>
   )

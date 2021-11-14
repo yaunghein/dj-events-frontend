@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import styles from '@dj-styles/DashboardEvent.module.css'
+import { child } from '@dj-animation/stagger-slideIn'
+import { motion } from 'framer-motion'
 
 export default function DashboardEvent({ evt, handleDelete }) {
   return (
-    <div className={styles.event}>
+    <motion.div className={styles.event} variants={child}>
       <h4>
         <Link href={`/events/${evt.slug}`}>{evt.name}</Link>
       </h4>
@@ -16,6 +18,6 @@ export default function DashboardEvent({ evt, handleDelete }) {
       <button className={styles.delete} onClick={() => handleDelete(evt)}>
         <FaTimes /> <span>Delete</span>
       </button>
-    </div>
+    </motion.div>
   )
 }

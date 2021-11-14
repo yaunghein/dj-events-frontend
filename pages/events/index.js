@@ -1,5 +1,7 @@
 import { Layout, EventItem, Pagination } from '@dj-components'
 import { API_URL, PER_PAGE } from '@dj-config/index'
+import { motion } from 'framer-motion'
+import { parent } from '@dj-animation/stagger-slideIn'
 
 export default function EventPage({ events, page, total }) {
   return (
@@ -8,9 +10,11 @@ export default function EventPage({ events, page, total }) {
 
       {events.length === 0 && <h3>No events to show.</h3>}
 
-      {events.map(evt => (
-        <EventItem key={evt.id} evt={evt} />
-      ))}
+      <motion.div variants={parent} initial='hidden' animate='visible'>
+        {events.map((evt, index) => (
+          <EventItem key={evt.id} evt={evt} index={index} />
+        ))}
+      </motion.div>
 
       <Pagination page={page} total={total} />
     </Layout>

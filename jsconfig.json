@@ -5,7 +5,8 @@
       "@dj-components": ["components/"],
       "@dj-styles/*": ["styles/*"],
       "@dj-config/*": ["config/*"],
-      "@dj-context/*": ["context/*"]
+      "@dj-context/*": ["context/*"],
+      "@dj-animation/*": ["animation/*"]
     }
   }
 }
